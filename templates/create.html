@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %} - Create{% endblock %}
+{% block content %}
+    <form action="{{ url_for('generate') }}" method="post">
+        <fieldset>
+            <legend>Create a Spotify playlist</legend>
+            <label for="source-text">Your pretty poem</label>
+            <textarea name="source-text" id="source-text" rows="3"></textarea>
+            <span class="help-block">Type the text you want to transform into a playlist.</span>
+            <button type="submit" class="btn">Submit</button>
+        </fieldset>
+    </form>
+{% endblock %}

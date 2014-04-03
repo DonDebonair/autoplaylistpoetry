@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %} - Create{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>{{ heading }} {% if subheading %}<small>{{ subheading }}</small>{% endif %}</h1>
+    </div>
+    <div class="media">
+        {% if playlist %}
+            {% for item in playlist %}
+                <div class="media-body">
+                    <h4 class="media-heading">{{ item[0] }}</h4>
+                    <a target="_blank" href="{{ item[2] }}">Link to spotify</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <p>
+        <small>You searched for: '{{ message }}'</small>
+    </p>
+    <a href="{{ url_for('create') }}" class="btn btn-primary" type="button">Try again</a>
+{% endblock %}
