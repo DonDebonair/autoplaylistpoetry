@@ -11,17 +11,6 @@ from playlist.generator import spotify_uri_to_url
 from playlist.generator import ApiException
 
 application = app = Flask(__name__)
-redis_env = os.getenv('VCAP_SERVICES')
-if redis_env:
-    redis_conf = json.loads(redis_env)
-else:
-    redis_conf = None
-
-
-def get_credentials_from_env(redis_env):
-    redis_key = [key for key in redis_env if key.startswith('redis')][0]
-    redis = redis_env[redis_key][0]['credentials']
-    return {'hostname': redis['hostname'], 'port': redis['port'], 'password': redis['password']}
 
 @app.route('/favicon.ico')
 def favicon():
@@ -41,17 +30,10 @@ def create():
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    if redis_conf:
-        conf = get_credentials_from_env(redis_conf)
-        host = conf['hostname']
-        port = conf['port']
-        database = 0
-        password = conf['password']
-    else:
-        host = 'localhost'
-        port = 6379
-        database = 0
-        password = None
+    host = 'localhost'
+    port = 6379
+    database = 0
+    password = None
     cache = RedisPlaylistCache(host, port, database, password)
     message = request.form['source-text']
     try:
@@ -94,17 +76,10 @@ def generate():
 
 @app.route('/api/playlist', methods=['GET'])
 def api_playlist():
-    if redis_conf:
-        conf = get_credentials_from_env(redis_conf)
-        host = conf['hostname']
-        port = conf['port']
-        database = 0
-        password = conf['password']
-    else:
-        host = 'localhost'
-        port = 6379
-        database = 0
-        password = None
+    host = 'localhost'
+    port = 6379
+    database = 0
+    password = None
     cache = RedisPlaylistCache(host, port, database, password)
     message = request.args.get('message')
     try:
