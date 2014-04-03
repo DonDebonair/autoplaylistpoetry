@@ -13,9 +13,13 @@ A few caveats (ok, excuses really :) ) before trying out this app, and looking t
 * External dependencies may make these applications fail sometimes. [The Spotify Metadata API](https://developer.spotify.com/technologies/web-api/) seems somewhat fickle, and will sometimes return either a undocumented HTTP 502 or 504 error. The odd thing is, that is seems to be related to the queries I feed it. Some queries always return a result, some queries often trigger a 502 or 504.
 * Python is relatively new to me: In my current job I mainly develop in Java. I've done some Python programming as a hobby for some time now, and I really love the language! But I'm sure many of my solutions are "un-pythonic". I especially was unsure about how to organize my code, coming from an environment where everything is a class, and almost every class has it's own file. So I don't really know which code to put in what module/package/class/etc. Any ideas, contributions, PRs are welcome!
 
-## The applications and installation/usage instructions
+## Installation/usage instructions
 
 As said, there are two versions of the app: a command line app and a web app. Both (can) use Redis for caching the API results for later reuse. In the command line app, using Redis is optional, the web app requires it. You can install Redis using your favorite package manager, such as [homebrew](http://brew.sh/) on OS X. Aside from `redis`, two other external Python libraries are used: `requests` is used by both implementations for querying the Spotify Metadata API and `Flask` is used as a web framework in the web app.
+
+First clone the repo:
+	
+	git clone https://github.com/DandyDev/autoplaylistpoetry.git
 
 To install the requirements, you can (assuming you have `pip` installed) do the following in your terminal: 
 
@@ -38,6 +42,10 @@ The app tries to be a good unix-citizen and as such only gives back the endresul
 The interactive mode let's you type in messages on a prompt, and returns the result. It's straigtforward enough. In iteractive mode, the app, by default, uses an in-memory caching mechanism for storing API results for later reuse. Both interactive and one-off mode can also use Redis by providing the `-r` switch, with optionally a hostname, port and password. It requires Redis to be running of course.
 
 ### The web app
+
+To run the web app:
+
+	python wsgi.py
 
 The web application has a very simple interface which needs no further explanation. The application was built using [Flask](http://flask.pocoo.org/) and for the interface I used [Twitter Bootstrap](http://twitter.github.io/bootstrap/) (I know! just don't tell any designers…) The app uses Redis for caching API results for later reuse.
 
