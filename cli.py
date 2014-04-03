@@ -79,7 +79,6 @@ def main():
         print "Welcome to PlaylistPoetry interactive mode."
         print "Enter a message to generate a playlist."
         print "Type :exit to quit."
-        pl_gen = PlaylistGenerator(cache)
         while True:
             message = raw_input('> ')
 

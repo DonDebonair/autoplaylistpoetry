@@ -5,7 +5,8 @@ import requests
 from message_tools import MessageChunker
 from cache import PlaylistCache
 from cache import PlaylistItem
-import cache
+from cache import datetime_from_http_datestring
+from cache import http_datestring_from_datetime
 
 SPOTIFY_BASE_TRACK_URL = 'http://open.spotify.com/track/'
 SPOTIFY_API_SEARCH_TRACK_URL = 'http://ws.spotify.com/search/1/track.json'
@@ -108,8 +109,8 @@ class PlaylistGenerator(object):
         elif r.status_code == 404:
             return None
 
-        last_modified = cache.datetime_from_http_datestring(r.headers['last-modified'])
-        expires = cache.datetime_from_http_datestring(r.headers['expires'])
+        last_modified = datetime_from_http_datestring(r.headers['last-modified'])
+        expires = datetime_from_http_datestring(r.headers['expires'])
         decoded_result = r.json()
         track_listing = decoded_result['tracks']
 
@@ -133,7 +134,7 @@ class PlaylistGenerator(object):
             return cached_item
         # If it's expired, query the API using if-modified-since to see if cache is still valid
         elif cached_item:
-            modified_since = cache.http_datestring_from_datetime(cached_item.last_modified)
+            modified_since = http_datestring_from_datetime(cached_item.last_modified)
             params = {'q': title}
             headers = {'If-Modified-Since': modified_since}
             r = requests.get(SPOTIFY_API_SEARCH_TRACK_URL, params=params, headers=headers)
