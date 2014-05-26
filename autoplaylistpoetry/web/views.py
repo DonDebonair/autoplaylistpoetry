@@ -1,3 +1,4 @@
+import logging.config
 import os
 import re
 
@@ -9,7 +10,7 @@ from playlist.rediscache import RedisPlaylistCache
 
 
 web = Blueprint('web', __name__)
-
+logger = logging.getLogger(__name__)
 
 @web.route('/favicon.ico')
 def favicon():
@@ -39,6 +40,7 @@ def generate():
     password = None
     cache = RedisPlaylistCache(host, port, database, password)
     message = request.form['source-text']
+    logger.info("Generating playlist from message: %s", message)
     try:
         if message:
             messages = [sentence for sentence in re.split(r'[.?!/\n]', message) if len(sentence) > 0]
@@ -73,6 +75,7 @@ def generate():
     except ApiException as e:
         heading = "Something's wrong with the Spotify API"
         subheading = "Statuscode returned: {}".format(str(e.status))
+        logger.warn("An error occured with the Spotify API. Statuscode: %s", e.status)
         generated_playlist = None
 
     return render_template('web/generate.html', message=message, heading=heading, subheading=subheading,

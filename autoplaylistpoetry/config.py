@@ -2,7 +2,7 @@ DEBUG = True
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
 
     'formatters': {
         'console': {
@@ -24,6 +24,9 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
+        },
+        'requests': {
+            'level': 'WARN',
         },
     }
 }

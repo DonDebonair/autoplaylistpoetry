@@ -16,6 +16,7 @@ def http_datestring_from_datetime(dt):
     # HTTP datetimes are always in TZ GMT
     return dt.strftime('%a, %d %b %Y %H:%M:%S GMT')
 
+
 class PlaylistCache(object):
     """
     Abstract Base Class representing the cache for PlaylistItems

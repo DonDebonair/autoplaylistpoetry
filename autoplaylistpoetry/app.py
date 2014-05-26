@@ -23,7 +23,6 @@ def create_app(blueprints=None):
 
 
 def config_app(app):
-    app.debug = True
     app.config.from_object('autoplaylistpoetry.config')
     app.config.from_envvar('APP_CONFIG', silent=True)
     logging.config.dictConfig(app.config['LOGGING'])

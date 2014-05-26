@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 
 from flask import Blueprint, request
@@ -9,6 +10,7 @@ from playlist.rediscache import RedisPlaylistCache
 
 
 api = Blueprint('api', __name__)
+logger = logging.getLogger(__name__)
 
 
 @api.route('/api/playlist', methods=['GET'])
@@ -44,6 +46,7 @@ def api_playlist():
         else:
             payload = {'error': True, 'message': "No message provided!"}
     except ApiException as e:
+        logger.warn("An error occured with the Spotify API. Statuscode: %s", e.status)
         payload = {'error': True, 'message': "The Spotify API returned an error({})".format(str(e.status))}
 
     return json.dumps(payload)

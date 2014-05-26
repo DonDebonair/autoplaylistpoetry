@@ -1,7 +1,8 @@
-__author__ = 'Daan Debie'
-
+import logging
 import re
+
 import requests
+
 from message_tools import MessageChunker
 from cache import PlaylistCache
 from cache import PlaylistItem
@@ -11,6 +12,8 @@ from cache import http_datestring_from_datetime
 SPOTIFY_BASE_TRACK_URL = 'http://open.spotify.com/track/'
 SPOTIFY_API_SEARCH_TRACK_URL = 'http://ws.spotify.com/search/1/track.json'
 VALID_API_STATUSCODES = [200, 304, 404]
+
+logger = logging.getLogger(__name__)
 
 
 def spotify_uri_to_url(uri):
@@ -96,7 +99,8 @@ class PlaylistGenerator(object):
             incomplete = False
         return playlist, incomplete
 
-    def _fetch_item_from_api(self, title):
+    @staticmethod
+    def _fetch_item_from_api(title):
         """
         Does a Spotify Metadata search and returns the first valid result
         """
@@ -131,9 +135,11 @@ class PlaylistGenerator(object):
         cached_item = self.cache.get(title)
         # If it's not expired, go with it
         if cached_item and not cached_item.is_expired():
+            logger.debug("Cache hit for '%s'", title)
             return cached_item
         # If it's expired, query the API using if-modified-since to see if cache is still valid
         elif cached_item:
+            logger.debug("Cache expired for '%s'", title)
             modified_since = http_datestring_from_datetime(cached_item.last_modified)
             params = {'q': title}
             headers = {'If-Modified-Since': modified_since}
@@ -144,8 +150,10 @@ class PlaylistGenerator(object):
                 raise ApiException(r.status_code)
             # If we get statuscode 304, we can still use the cached item
             if r.status_code == 304:
+                logger.debug("Cache still valid for '%s'", title)
                 return cached_item
             else:
+                logger.debug("Cache invalidated for '%s'", title)
                 self.cache.remove(title)
                 return None
 
