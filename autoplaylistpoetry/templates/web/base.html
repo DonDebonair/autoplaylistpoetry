@@ -2,71 +2,74 @@
 <html lang="en">
 <head>
     {% block head %}
-        <title>AutoPlaylistPoetry{% block title %}{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        <meta name="author" content="">
         <meta charset="utf-8">
-
-        <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
-        <style> body {
-            padding-top: 60px;
-        } </style>
-        <link href="{{ url_for('static', filename='css/bootstrap-responsive.css') }}" rel="stylesheet">
-
-        <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
-        <!--[if lt IE 9]>
-          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-      <![endif]-->
-
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
         <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
 
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <title>AutoPlaylistPoetry{% block title %}{% endblock %}</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+        <!-- Custom styles for this site -->
+        <style> body {
+            padding-top: 60px;
+            padding-bottom: 20px;
+        } </style>
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
     {% endblock %}
 </head>
 
 <body>
 
-{% block navbar %}
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-                <a class="brand" href="{{ url_for('web.index') }}">AutoPlaylistPoetry</a>
-
-                <div class="nav-collapse">
-                    <ul class="nav">
-                        <li><a href="{{ url_for('web.create') }}">Create</a></li>
-                    </ul>
-                </div>
-                <!--/.nav-collapse -->
-            </div>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('web.index') }}">AutoPlaylistPoetry</a>
         </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('web.create') }}">Create</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
     </div>
-{% endblock %}
+</div>
 
-<div class="container page">
-    <div class="content">
-        {% block content %}
-        {% endblock %}
-    </div>
+<div class="container">
+    {% block content %}
+    {% endblock %}
 
     <hr>
 
     {% block footer %}
         <footer class="footer">
-            <p>&copy; Daan Debie</p>
+            <p>&copy;2014 Daan Debie</p>
         </footer>
     {% endblock %}
 
 </div>
+<!-- /container -->
+
 {% block js_footer %}
-    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 {% endblock %}
 </body>
 </html>
