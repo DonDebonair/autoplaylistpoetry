@@ -3,10 +3,10 @@ import logging
 import re
 
 from flask import Blueprint, request
+from autoplaylistpoetry.redis import get_redis_cache
 
 from playlist.generator import PlaylistGenerator, ApiException, spotify_uri_to_url
 from playlist.plthreading import generate_multiple_playlists_threaded
-from playlist.rediscache import RedisPlaylistCache
 
 
 api = Blueprint('api', __name__)
@@ -15,11 +15,7 @@ logger = logging.getLogger(__name__)
 
 @api.route('/api/playlist', methods=['GET'])
 def api_playlist():
-    host = 'localhost'
-    port = 6379
-    database = 0
-    password = None
-    cache = RedisPlaylistCache(host, port, database, password)
+    cache = get_redis_cache()
     message = request.args.get('message')
     try:
         if message:

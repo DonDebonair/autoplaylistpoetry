@@ -3,14 +3,15 @@ import os
 import re
 
 from flask import Blueprint, send_from_directory, render_template, request
+from autoplaylistpoetry.redis import get_redis_cache
 
 from playlist.generator import PlaylistGenerator, spotify_uri_to_url, ApiException
 from playlist.plthreading import generate_multiple_playlists_threaded
-from playlist.rediscache import RedisPlaylistCache
 
 
 web = Blueprint('web', __name__)
 logger = logging.getLogger(__name__)
+
 
 @web.route('/favicon.ico')
 def favicon():
@@ -34,11 +35,7 @@ def create():
 
 @web.route('/generate', methods=['POST'])
 def generate():
-    host = 'localhost'
-    port = 6379
-    database = 0
-    password = None
-    cache = RedisPlaylistCache(host, port, database, password)
+    cache = get_redis_cache()
     message = request.form['source-text']
     logger.info("Generating playlist from message: %s", message)
     try:

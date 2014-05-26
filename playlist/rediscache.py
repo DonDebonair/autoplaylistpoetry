@@ -1,5 +1,3 @@
-__author__ = 'Daan Debie'
-
 import redis
 from cache import PlaylistCache
 from cache import PlaylistItem

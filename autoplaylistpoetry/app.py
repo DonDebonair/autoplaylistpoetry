@@ -1,6 +1,6 @@
 import logging.config
 
-from flask import Flask
+from flask import Flask, g
 
 from autoplaylistpoetry.web import web
 from autoplaylistpoetry.api import api
