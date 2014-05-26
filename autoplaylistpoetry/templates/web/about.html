@@ -1,0 +1,16 @@
+{% extends "web/base.html" %}
+{% block title %} - About{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>About<small>Auto Playlist Poetry</small></h1>
+    </div>
+    <p>
+    This little (web)app automatically generates <a href="https://www.spotify.com/">Spotify</a> playlists based on a search
+    query entered by the user.
+    Auto Playlist Poetry is a proof-of-concept that's inspired by <a href="http://playlistpoetry.com/"><strong>Playlist Poetry</strong></a>,
+    which in turn was based on <a href="http://spotifypoetry.tumblr.com/">this Tumbler blog</a>.
+    The idea is that the user can provide a message and the application will use the Spotify Metadata API to find songs
+    whose titles together make up the provided message.
+    </p>
+    <p>You can find the source code for this project <a href="https://github.com/DandyDev/autoplaylistpoetry">on GitHub</a></p>
+{% endblock %}

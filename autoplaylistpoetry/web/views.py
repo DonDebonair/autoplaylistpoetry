@@ -27,6 +27,10 @@ def page_not_found(e):
 def index():
     return render_template('web/index.html')
 
+@web.route('/about')
+def about():
+    return render_template('web/about.html')
+
 
 @web.route('/create')
 def create():

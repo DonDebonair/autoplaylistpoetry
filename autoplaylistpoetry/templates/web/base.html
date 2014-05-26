@@ -14,11 +14,27 @@
         <!-- Bootstrap core CSS -->
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
+        <link href='http://fonts.googleapis.com/css?family=Abel|Open+Sans:400,600' rel='stylesheet'>
+
         <!-- Custom styles for this site -->
-        <style> body {
-            padding-top: 60px;
-            padding-bottom: 20px;
-        } </style>
+        <style>
+            body {
+                padding-top: 60px;
+                padding-bottom: 20px;
+                font-size: 16px;
+                font-family: "Open Sans", serif;
+            }
+
+            h1 {
+                font-family: "Abel", Arial, sans-serif;
+                font-weight: 400;
+                font-size: 40px;
+            }
+
+            .margin-base-vertical {
+                margin: 40px 0;
+            }
+        </style>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -42,10 +58,12 @@
             <a class="navbar-brand" href="{{ url_for('web.index') }}">AutoPlaylistPoetry</a>
         </div>
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="{{ url_for('web.create') }}">Create</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('web.create') }}">Create</a></li>
+                <li><a href="{{ url_for('web.about') }}">About</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
     </div>
 </div>
 
