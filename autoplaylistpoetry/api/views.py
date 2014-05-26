@@ -3,7 +3,7 @@ import logging
 import re
 
 from flask import Blueprint, request
-from autoplaylistpoetry.redis import get_redis_cache
+from autoplaylistpoetry.connections import get_redis_cache
 
 from playlist.generator import PlaylistGenerator, ApiException, spotify_uri_to_url
 from playlist.plthreading import generate_multiple_playlists_threaded

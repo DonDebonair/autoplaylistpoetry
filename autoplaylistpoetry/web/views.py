@@ -3,8 +3,8 @@ import os
 import re
 
 from flask import Blueprint, send_from_directory, render_template, request
-from autoplaylistpoetry.redis import get_redis_cache
 
+from autoplaylistpoetry.connections import get_redis_cache
 from playlist.generator import PlaylistGenerator, spotify_uri_to_url, ApiException
 from playlist.plthreading import generate_multiple_playlists_threaded
 
@@ -26,6 +26,7 @@ def page_not_found(e):
 @web.route('/')
 def index():
     return render_template('web/index.html')
+
 
 @web.route('/about')
 def about():
