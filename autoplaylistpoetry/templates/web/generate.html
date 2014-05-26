@@ -10,6 +10,11 @@
                 <div class="media-body">
                     <h4 class="media-heading">{{ item[0] }}</h4>
                     <a target="_blank" href="{{ item[2] }}">Link to spotify</a>
+                <div class="media">
+                    <div class="media-body">
+                        <iframe src="https://embed.spotify.com/?uri={{ item[1] }}" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+                    </div>
+                </div>
                 </div>
             {% endfor %}
         {% endif %}
