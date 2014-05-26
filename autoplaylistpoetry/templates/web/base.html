@@ -9,11 +9,11 @@
         <meta name="author" content="">
         <meta charset="utf-8">
 
-        <link href="/static/css/bootstrap.css" rel="stylesheet">
+        <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
         <style> body {
             padding-top: 60px;
         } </style>
-        <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="{{ url_for('static', filename='css/bootstrap-responsive.css') }}" rel="stylesheet">
 
         <!-- SUPPORT FOR IE6-8 OF HTML5 ELEMENTS -->
         <!--[if lt IE 9]>
@@ -37,11 +37,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
-                <a class="brand" href="{{ url_for('index') }}">AutoPlaylistPoetry</a>
+                <a class="brand" href="{{ url_for('web.index') }}">AutoPlaylistPoetry</a>
 
                 <div class="nav-collapse">
                     <ul class="nav">
-                        <li><a href="{{ url_for('create') }}">Create</a></li>
+                        <li><a href="{{ url_for('web.create') }}">Create</a></li>
                     </ul>
                 </div>
                 <!--/.nav-collapse -->
@@ -66,7 +66,7 @@
 
 </div>
 {% block js_footer %}
-    <script src="/static/js/bootstrap.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
 {% endblock %}
 </body>
 </html>

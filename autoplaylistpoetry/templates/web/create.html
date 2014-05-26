@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "web/base.html" %}
 {% block title %} - Create{% endblock %}
 {% block content %}
-    <form action="{{ url_for('generate') }}" method="post">
+    <form action="{{ url_for('web.generate') }}" method="post">
         <fieldset>
             <legend>Create a Spotify playlist</legend>
             <label for="source-text">Your pretty poem</label>

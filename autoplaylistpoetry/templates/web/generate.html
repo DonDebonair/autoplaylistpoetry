@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "web/base.html" %}
 {% block title %} - Create{% endblock %}
 {% block content %}
     <div class="page-header">
@@ -17,5 +17,5 @@
     <p>
         <small>You searched for: '{{ message }}'</small>
     </p>
-    <a href="{{ url_for('create') }}" class="btn btn-primary" type="button">Try again</a>
+    <a href="{{ url_for('web.create') }}" class="btn btn-primary" type="button">Try again</a>
 {% endblock %}
