@@ -99,8 +99,7 @@ class PlaylistGenerator(object):
             incomplete = False
         return playlist, incomplete
 
-    @staticmethod
-    def _fetch_item_from_api(title):
+    def _fetch_item_from_api(self, title):
         """
         Does a Spotify Metadata search and returns the first valid result
         """
