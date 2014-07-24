@@ -1,7 +1,7 @@
 import redis
 from cache import PlaylistCache
 from cache import PlaylistItem
-import cache
+from datetime import datetime
 
 
 class RedisPlaylistCache(PlaylistCache):
@@ -15,8 +15,8 @@ class RedisPlaylistCache(PlaylistCache):
 
     def get(self, key):
         if self.database.exists(key):
-            last_modified = cache.datetime_from_http_datestring(self.database.hget(key, 'last_modified'))
-            expires = cache.datetime_from_http_datestring(self.database.hget(key, 'expires'))
+            last_modified = self.database.hget(key, 'last_modified')
+            expires = datetime.strptime(self.database.hget(key, 'expires'), '%Y-%m-%d %H:%M:%S.%f')
             item = PlaylistItem(self.database.hget(key, 'name'), self.database.hget(key, 'uri'), last_modified, expires)
             return item
         else:
@@ -25,8 +25,8 @@ class RedisPlaylistCache(PlaylistCache):
     def put(self, key, value):
         self.database.hset(key, 'name', value.name)
         self.database.hset(key, 'uri', value.uri)
-        self.database.hset(key, 'last_modified', cache.http_datestring_from_datetime(value.last_modified))
-        self.database.hset(key, 'expires', cache.http_datestring_from_datetime(value.expires))
+        self.database.hset(key, 'last_modified', value.last_modified)
+        self.database.hset(key, 'expires', value.expires)
 
     def remove(self, key):
         self.database.delete(key)

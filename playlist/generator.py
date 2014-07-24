@@ -1,5 +1,7 @@
 import logging
 import re
+from datetime import timedelta
+from datetime import datetime
 
 import requests
 
@@ -10,7 +12,7 @@ from cache import datetime_from_http_datestring
 from cache import http_datestring_from_datetime
 
 SPOTIFY_BASE_TRACK_URL = 'http://open.spotify.com/track/'
-SPOTIFY_API_SEARCH_TRACK_URL = 'http://ws.spotify.com/search/1/track.json'
+SPOTIFY_API_SEARCH_TRACK_URL = 'https://api.spotify.com/v1/search'
 VALID_API_STATUSCODES = [200, 304, 404]
 
 logger = logging.getLogger(__name__)
@@ -99,11 +101,12 @@ class PlaylistGenerator(object):
             incomplete = False
         return playlist, incomplete
 
-    def _fetch_item_from_api(self, title):
+    @staticmethod
+    def _fetch_item_from_api(title):
         """
         Does a Spotify Metadata search and returns the first valid result
         """
-        params = {'q': title}
+        params = {'q': title, 'type': 'track'}
         r = requests.get(SPOTIFY_API_SEARCH_TRACK_URL, params=params)
 
         # Something bad happened with the API that we can't recover from
@@ -112,16 +115,21 @@ class PlaylistGenerator(object):
         elif r.status_code == 404:
             return None
 
-        last_modified = datetime_from_http_datestring(r.headers['last-modified'])
-        expires = datetime_from_http_datestring(r.headers['expires'])
+        last_modified = datetime_from_http_datestring(r.headers['Date'])
+        max_age_match = re.match(r'.*max-age=(?P<age>\d+)', r.headers['Cache-Control'])
+        if max_age_match:
+            max_age = int(max_age_match.group('age'))
+        else:
+            max_age = None
+        expires = datetime.utcnow() + timedelta(seconds=max_age)
         decoded_result = r.json()
-        track_listing = decoded_result['tracks']
+        track_listing = decoded_result['tracks']['items']
 
         # Valid track is any track whose name resembles the title we're looking for
         # Spotify Metadata API also returns tracks whose ALBUM name resembles the query...
         valid_tracks = [track for track in track_listing if title == track['name'].lower().strip()]
         if valid_tracks:
-            return PlaylistItem(valid_tracks[0]['name'], valid_tracks[0]['href'], last_modified, expires)
+            return PlaylistItem(valid_tracks[0]['name'], valid_tracks[0]['uri'], last_modified, expires)
         else:
             return None
 
@@ -140,7 +148,7 @@ class PlaylistGenerator(object):
         elif cached_item:
             logger.debug("Cache expired for '%s'", title)
             modified_since = http_datestring_from_datetime(cached_item.last_modified)
-            params = {'q': title}
+            params = {'q': title, 'type': 'track'}
             headers = {'If-Modified-Since': modified_since}
             r = requests.get(SPOTIFY_API_SEARCH_TRACK_URL, params=params, headers=headers)
 
