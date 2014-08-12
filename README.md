@@ -3,15 +3,18 @@ Auto Playlist Poetry
 
 This little (web)app automatically generates [Spotify](https://www.spotify.com) playlists based on a search query entered by the user. _Auto Playlist Poetry_ is a proof-of-concept that's inspired by [**Playlist Poetry**](http://playlistpoetry.com/), which in turn was based on [this Tumbler blog](http://spotifypoetry.tumblr.com/). The idea is that the user can provide a message and the application will use the Spotify Metadata API to find songs whose titles together make up the provided message. 
 
-Aside from the Flask app, there's also a simple commandline utility that does the same thing. 
+Aside from the Flask app, there's also a simple commandline utility that does the same thing.
+
+You can find AutoPlaylistPoetry [running online here](http://autoplaylistpoetry.com/).
 
 ## Disclaimer
 
 A few caveats (ok, excuses really :) ) before trying out this app, and looking through the code:
 
 * No Test-coverage whatsoever. You read that right. I know, it's a shame. I would have loved to provide tests for everything, but so far the time spent on this project was limited, and I consider this a proof-of-concept. Do know, that I am well aware of best practices in Software Engineering and that I normally go out of my way to provide decent test-coverage for the code I write. Tests are at the top of my TODO list for this project.
-* External dependencies may make these applications fail sometimes. [The Spotify Metadata API](https://developer.spotify.com/technologies/web-api/) seems somewhat fickle, and will sometimes return either a undocumented HTTP 502 or 504 error. The odd thing is, that is seems to be related to the queries I feed it. Some queries always return a result, some queries often trigger a 502 or 504.
-* Python is relatively new to me: In my current job I mainly develop in Java. I've done some Python programming as a hobby for some time now, and I really love the language! But I'm sure many of my solutions are "un-pythonic". I especially was unsure about how to organize my code, coming from an environment where everything is a class, and almost every class has it's own file. So I don't really know which code to put in what module/package/class/etc. Any ideas, contributions, PRs are welcome!
+* The way playlists get generated is somewhat involved I haven't smoothed out the algorithm completely yet. This means that it will sometimes get caught in some kind of loop, making the web app hang. Shouldn't occur too often though. Solutions and better ideas are welcome!
+* External dependencies may make these applications fail sometimes. [The Spotify Metadata API](https://developer.spotify.com/technologies/metadata-api/) was somewhat fickle, and would sometimes return either a undocumented HTTP 502 or 504 error. I haven't seen any odd behaviour since moving to the new [Web API](https://developer.spotify.com/web-api/) though.
+* Python is relatively new to me: In my current job I mainly develop in Scala & Java. I've done some Python programming as a hobby for some time now, and I really love the language! But I'm sure many of my solutions are "un-pythonic". I especially was unsure about how to organize my code, coming from an environment where everything is a class, and almost every class has it's own file. So I don't really know which code to put in what module/package/class/etc. Any ideas, contributions, PRs are welcome!
 
 ## Installation/usage instructions
 
@@ -57,7 +60,7 @@ Some future improvements could include:
 
 * (unit)tests
 * Dealing with skipping words to improve results
-* Guarantee a maximum running time by setting time-outs for example. Strive for best-effort. Running time should improve however, when caching is used and the app is used many time, filling said cache.
+* Guarantee a maximum running time by setting time-outs for example. Strive for best-effort. Running time should improve however, when caching is used and the app is used a lot, filling said cache.
 
 ## Contributions
 
